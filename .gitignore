@@ -1,0 +1,15 @@
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Configuración del editor
+.vscode/
+*.code-workspace
+
+# Configuración y notas de trabajo con Claude Code (no forman parte de la app)
+.claude/
+CLAUDE.md
+
+# Archivos temporales
+*.log
+*.tmp

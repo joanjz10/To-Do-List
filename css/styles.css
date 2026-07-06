@@ -1,0 +1,165 @@
+:root {
+  --color-navy: #1f3864;        /* azul oscuro, color principal */
+  --color-navy-light: #2f5496;  /* variante más clara para hover */
+  --color-gray-dark: #333333;   /* texto principal */
+  --color-gray-medium: #6b7280; /* texto secundario */
+  --color-gray-light: #e5e7eb;  /* bordes, líneas */
+  --color-bg: #f3f4f6;          /* fondo de la página */
+  --color-white: #ffffff;       /* fondo de tarjetas y elementos sobre el fondo gris */
+  --color-danger: #dc2626;      /* rojo para eliminar */
+  --radius: 8px;                /* bordes redondeados, reutilizable */
+}
+
+* {
+  box-sizing: border-box; /* padding y border no aumentan el ancho total */
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; /* fuentes del sistema, sin depender de internet */
+  color: var(--color-gray-dark); /* color de texto principal */
+  background-color: var(--color-bg); /* fondo gris claro para toda la página */
+  line-height: 1.5; /* espacio entre líneas, mejora la lectura */
+}
+
+.visually-hidden {
+  position: absolute; /* saca el elemento del flujo normal del documento */
+  width: 1px; /* lo hace casi invisible */
+  height: 1px; /* lo hace casi invisible */
+  overflow: hidden; /* oculta cualquier contenido que sobresalga del elemento */
+  clip-path: inset(50%); /* oculta visualmente pero lo sigue leyendo un lector de pantalla */
+  white-space: nowrap; /* evita que el texto oculto se corte en varias líneas */
+}
+
+.container { 
+  max-width: 480px; /* que no se estire demasiado en pantallas grandes */
+  margin: 40px auto; /*separa del borde de arriba y lo centra horizontalmente */
+  background-color: var(--color-white); /* fondo blanco para que resalte sobre el gris */
+  border-radius: var(--radius); /* bordes redondeados */
+  box-shadow:0 2px 8px rgba(0, 0, 0, 0.1); /* sombra sutil para dar profundidad */
+  overflow: hidden; /* evita que el contenido sobresalga de los bordes redondeados */
+  
+}
+
+.header{
+  background-color: var(--color-navy); /*azul oscuro para el encabezado */
+  color: var(--color-white); /* texto blanco para contraste */
+  padding: 24px 20px; /* espacio interno, más arriba y abajo que a los lados */
+  text-align: center; /* centra el texto del encabezado */
+}
+
+.header h1{
+  font-size: 1.5rem; /* tamaño de fuente más grande para el título */
+  font-weight: 600; /* negrita para destacar el título */
+}
+
+.task-form{
+  display: flex; /* pone el input y el botón en una misma fila */
+  gap: 10px; /* espacio entre el input y el botón */
+  padding: 20px; /*separación respecto a los bordes del container */
+}
+
+.task-input{
+  flex: 1; /* ocupa todo el espacio que sobra, empujando el boton a la derecha */
+  padding: 10px 12px; /* espacio interno para que el texto no toque los bordes */
+  border: 1px solid var(--color-gray-light); /* el borde de color gris claro */
+  border-radius: var(--radius); /* bordes redondeados con el color definido en la variable root */
+  font-size: 1rem; /* tamaño de la fuente */
+}
+
+.task-input:focus{
+  outline: none; /* quita el borde azul por defecto del navegador al hacer focus */
+  border-color: var(--color-navy); /* cambia el color del borde al azul oscuro definido en la variable root */
+}
+
+.btn-add{
+  padding: 10px 16px; /* espacio interno para que el texto no toque los bordes */
+  background-color: var(--color-navy); /* fondo azul oscuro para que resalte sobre el gris del header */
+  color: var(--color-white); /* texto blanco para contrate con el fondo azul */
+  border: none; /*quita el borde por defecto del navegador */
+  border-radius: var(--radius); /* bordes redondeados con el color definido en la variable root */
+  font-size: 1rem; /* tamaño de la fuente */
+  cursor: pointer; /* cambia el cursor al pasar por encima para indicar que es clickeable */
+}
+
+.btn-add:hover{
+  background-color: var(--color-navy-light); /* cambia el fondo a un azul más claro al pasar el mouse */
+  border-color: var(--color-navy-light); /* cambia el color del borde al azul más claro */
+}
+
+.filters {
+  display: flex; /* pone los botones de filtro en una misma fila */
+  gap: 8px; /* espacio entre los botones de filtro */
+  padding: 0px 20px 16px;/* sin espacio arriba (ya lo da el form), si abajo y a los lados */
+}
+
+.filter-btn,
+.filter-btn-active{
+  padding: 6px 14px; /* espacio interno para que el texto no toque los bordes */
+  border: 1px solid var(--color-gray-light); /* borde gris claro */
+  border-radius: 20px; /* bordes redondeados para que se vea como un botón */
+  background-color: var(--color-white); /* fondo blanco para que resalte sobre el gris del container */
+  color: var(--color-gray-medium); /* texto gris oscuro para contraste */
+  font-size: 0.875rem; /* tamaño de la fuente más pequeño para queexpli se vea como un botón secundario */
+  cursor: pointer; /* cambia el cursosr al pasar por encima para indicar que es clickeable */
+}
+
+.filter-btn:hover{
+  background-color: var(--color-gray-light); /* cambia el fondo a un gris claro al pasar el mouse */
+}
+
+.filter-btn-active{
+  background-color: var(--color-navy); /* fondo azul oscuro para indicar que está activo */
+  color: var(--color-white); /* texto blanco para contraste con el fondo azul */
+  border-color: var(--color-navy); /* borde azul oscuro para indicar que está activo */
+}
+
+.empty-state{
+  padding: 20px; /* espacio interno para que el texto no toque los bordes */
+  text-align: center; /* centra el texto */
+  color: var(--color-gray-medium); /* texto gris oscuro para contraste */
+  font-size: 0.9rem; /* tamaño de la fuente más pequeño para que se vea como un mensaje secundario */
+}
+
+.task-list{
+  list-style: none; /* quita los puntos (bullets) que trae un <ul> por defecto */
+}
+
+.task-item{
+  display: flex; /* pone el checkbox, el texto y el botón en una misma fila */
+  align-items: center; /* los centra verticalmente entre sí */
+  gap: 10px; /* espacio entre el checkbox, el texto y el botón */
+  padding: 12px 20px; /* espacio interno de cada tarea */
+  border-top: 1px solid var(--color-gray-light); /* línea divisoria entre cada tarea */
+}
+
+.task-checkbox{
+  width: 18px; /* tamaño del checkbox, más grande que el default del navegador */
+  height: 18px; /* tamaño del checkbox, más grande que el default del navegador */
+  cursor: pointer; /* cambia el cursor al pasar por encima para indicar que es clickeable */
+  flex-shrink: 0; /* evita que se achique si el texto de la tarea es muy largo */
+}
+
+.task-text{
+  flex: 1; /* ocupa el espacio que sobra, empujando el botón eliminar a la derecha */
+  font-size: 0.95rem; /* tamaño de la fuente del texto de la tarea */
+}
+
+.btn-delete{
+  background: none; /* sin fondo, se ve como un ícono simple */
+  border: none; /* quita el borde por defecto del navegador */
+  color: var(--color-danger); /* rojo, indica que es una acción de eliminar */
+  font-size: 1rem; /* tamaño del ícono ✕ */
+  cursor: pointer; /* cambia el cursor al pasar por encima para indicar que es clickeable */
+  padding: 4px 8px; /* espacio interno alrededor del ícono */
+}
+
+.btn-delete:hover{
+  background-color: var(--color-gray-light); /* resalta en gris claro al pasar el mouse */
+  border-radius: var(--radius); /* bordes redondeados con el color definido en la variable root */
+}
+.task-item.completed .task-text{
+  text-decoration: line-through; /* tacha el texto para indicar que la tarea está completada */
+  color: var(--color-gray-medium); /* lo pone en gris, menos protagonismo que una tarea pendiente */
+  }

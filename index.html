@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <title>To-Do List</title>
+  </head>
+  <body>
+    <div class="container"> <!-- contenedor general de la página -->
+      <header class="header"> <!-- cabecera con el título -->
+        <h1>To-Do List</h1>
+      </header>
+
+      <main> <!-- contenido principal de la app -->
+        <form id="task-form" class="task-form"> <!-- formulario para agregar tareas -->
+          <label for="task-input" class="visually-hidden">Nueva tarea</label>
+          <input
+            type="text"
+            id="task-input"
+            class="task-input"
+            placeholder="Escribe una nueva tarea..."
+            autocomplete="off"
+            required
+          />
+
+          <button type="submit" class="btn-add">+ Agregar</button>
+        </form>
+        <div class="filters" id="filters"> <!-- botones para filtrar tareas -->
+          <button type="button" class="filter-btn-active" data-filter="all" aria-pressed="true">Todas</button>
+          <button type="button" class="filter-btn" data-filter="pending" aria-pressed="false">Pendientes</button>
+          <button type="button" class="filter-btn" data-filter="completed" aria-pressed="false">Completadas</button>
+        </div>
+        <ul id="task-list" class="task-list"></ul> <!-- aquí JS va a insertar cada tarea -->
+        <p id="empty-state" class="empty-state">No hay tareas pendientes.</p> <!-- mensaje cuando no hay tareas -->
+      </main>
+    </div>
+
+    <script src="js/app.js"> </script> <!-- lógica de la app -->
+
+  </body>
+</html>
