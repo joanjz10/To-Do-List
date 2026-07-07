@@ -14,16 +14,41 @@ const emptyState =
   document.getElementById(
     "empty-state",
   ); /*Busca en el HTML el elemento con id="empty-state" (tu <p>) y guarda esa referencia en la variable emptyState. La vamos a necesitar para mostrar u ocultar el mensaje de "No hay tareas".*/
+const filtersContainer = document.getElementById("filters"); /* el <div> que contiene los 3 botones de filtro */
+
+let currentFilter = "all"; /* guarda cuál filtro está activo ahora mismo: "all", "pending" o "completed" */
+
+filtersContainer.addEventListener("click", (event) => {
+  const clickedButton = event.target;
+  if (!clickedButton.matches("[data-filter]")) return; // si el clic no fue en un botón de filtro, no hacemos nada
+
+  // le quitamos el estilo activo a todos los botones de filtro
+  filtersContainer.querySelectorAll("[data-filter]").forEach((btn) => {
+    btn.classList.remove("filter-btn-active");
+    btn.classList.add("filter-btn");
+    btn.setAttribute("aria-pressed", "false");
+  });
+
+  // le ponemos el estilo activo solo al botón que clickeaste
+  clickedButton.classList.remove("filter-btn");
+  clickedButton.classList.add("filter-btn-active");
+  clickedButton.setAttribute("aria-pressed", "true");
+
+  currentFilter = clickedButton.dataset.filter; // guardamos "all", "pending" o "completed"
+  applyFilter(); // muestra/oculta las tareas según el filtro elegido
+});
 
 taskForm.addEventListener("submit", (event) => {
   /* "escucha" el evento de enviar el formulario (submit) y ejecuta la función que le pasamos como segundo argumento cuando eso sucede. La función recibe un objeto event que contiene información sobre el evento que ocurrió. */
   event.preventDefault(); /*evita que la página se recargue al enviar el formulario*/
+  
   const taskText =
     taskInput.value.trim(); /* el texto escrito, sin espacios de sobra al inicio/final*/
   if (taskText === "") return; /* si el usuario no escribió nada, no hacemos nada más */
 
   const taskElement = createTaskElement(taskText);
   taskList.appendChild(taskElement); /* inserta la tarea en la lista <ul> visible */
+  applyFilter(); /* respeta el filtro activo por si la tarea nueva debe ocultarse */
   updateEmptyState(); /* revisa si debe ocultar el mensaje de "no hay tareas" */
   saveTasks(); /* guarda el estado actual de las tareas en localStorage */
 
@@ -33,6 +58,22 @@ taskForm.addEventListener("submit", (event) => {
 function updateEmptyState() {
   const hasTasks = taskList.children.length > 0; /* cuenta cuántos <li> hay dentro de la lista */
   emptyState.style.display = hasTasks ? "none" : "block"; /* si hay tareas, lo oculta; si no, lo muestra */
+}
+
+function applyFilter() {
+  const allTasks = taskList.querySelectorAll(".task-item"); // todas las tareas, sin importar el filtro
+
+  allTasks.forEach((task) => {
+    const isCompleted = task.classList.contains("completed"); // true o false
+
+    if (currentFilter === "all") {
+      task.style.display = "flex"; // se muestran todas
+    } else if (currentFilter === "pending") {
+      task.style.display = isCompleted ? "none" : "flex"; // oculta las completadas
+    } else if (currentFilter === "completed") {
+      task.style.display = isCompleted ? "flex" : "none"; // oculta las pendientes
+    }
+  });
 }
 
 function saveTasks() {
@@ -54,7 +95,8 @@ function createTaskElement(text) {
       "li",
     ); /* crea un nuevo elemento <li> en memoria, que todavía no está en el DOM. */
   li.className =
-    "task-item"; /* le asigna la clase "task-item" al <li> para que tenga los estilos correctos. */
+    "task-item"; /* le asigna la clase "task-item" al <li> para que tenga los estilos correctos. */ 
+
 
   const checkbox =
     document.createElement(
@@ -66,6 +108,7 @@ function createTaskElement(text) {
 
   checkbox.addEventListener("change", () => {
     li.classList.toggle("completed"); /* agrega o quita la clase "completed" según si el checkbox está marcado o no */
+    applyFilter(); /* oculta/muestra la tarea si ya no corresponde al filtro activo */
     saveTasks(); /* guarda el nuevo estado (completada o no) en localStorage */
   });
 
@@ -114,6 +157,7 @@ function loadTasks() {
     taskList.appendChild(taskElement); /* inserta la tarea recuperada en la lista visible */
   });
 
+  applyFilter(); /* aplica el filtro activo (por defecto "all") a las tareas recién cargadas */
   updateEmptyState(); /* revisa si debe mostrarse el mensaje de "no hay tareas" según lo cargado */
 }
 
