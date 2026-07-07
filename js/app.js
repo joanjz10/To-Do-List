@@ -36,6 +36,7 @@ filtersContainer.addEventListener("click", (event) => {
 
   currentFilter = clickedButton.dataset.filter; // guardamos "all", "pending" o "completed"
   applyFilter(); // muestra/oculta las tareas según el filtro elegido
+  updateEmptyState(); // revisa si con este filtro no queda ninguna tarea visible
 });
 
 taskForm.addEventListener("submit", (event) => {
@@ -56,8 +57,9 @@ taskForm.addEventListener("submit", (event) => {
 });
 
 function updateEmptyState() {
-  const hasTasks = taskList.children.length > 0; /* cuenta cuántos <li> hay dentro de la lista */
-  emptyState.style.display = hasTasks ? "none" : "block"; /* si hay tareas, lo oculta; si no, lo muestra */
+  const allTasks = taskList.querySelectorAll(".task-item"); // todas las tareas, sin importar el filtro
+  const visibleTasks = Array.from(allTasks).filter((task) => task.style.display !== "none"); // solo las que se ven con el filtro actual
+  emptyState.style.display = visibleTasks.length > 0 ? "none" : "block"; // si hay tareas visibles, lo oculta; si no, lo muestra
 }
 
 function applyFilter() {
@@ -109,6 +111,7 @@ function createTaskElement(text) {
   checkbox.addEventListener("change", () => {
     li.classList.toggle("completed"); /* agrega o quita la clase "completed" según si el checkbox está marcado o no */
     applyFilter(); /* oculta/muestra la tarea si ya no corresponde al filtro activo */
+    updateEmptyState(); /* revisa si tras el cambio no queda ninguna tarea visible */
     saveTasks(); /* guarda el nuevo estado (completada o no) en localStorage */
   });
 
