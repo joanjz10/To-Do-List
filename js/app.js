@@ -56,9 +56,16 @@ taskForm.addEventListener("submit", (event) => {
   taskInput.value = ""; /* limpia el input para escribir la siguiente tarea */
 });
 
+const emptyMessages = {
+  all: "No hay tareas.",
+  pending: "No hay tareas pendientes.",
+  completed: "No hay tareas completadas.",
+}; // un mensaje distinto según el filtro activo
+
 function updateEmptyState() {
   const allTasks = taskList.querySelectorAll(".task-item"); // todas las tareas, sin importar el filtro
   const visibleTasks = Array.from(allTasks).filter((task) => task.style.display !== "none"); // solo las que se ven con el filtro actual
+  emptyState.textContent = emptyMessages[currentFilter]; // ajusta el texto al filtro actual
   emptyState.style.display = visibleTasks.length > 0 ? "none" : "block"; // si hay tareas visibles, lo oculta; si no, lo muestra
 }
 
