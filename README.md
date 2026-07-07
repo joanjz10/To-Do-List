@@ -7,6 +7,7 @@ Aplicación web para gestionar tareas diarias: agregar, marcar como completadas 
 - Agregar nuevas tareas escribiendo texto
 - Marcar tareas como completadas (con estilo tachado)
 - Eliminar tareas
+- Filtrar tareas por estado: Todas / Pendientes / Completadas
 - Persistencia de datos con `localStorage`: las tareas no se pierden al cerrar o recargar el navegador
 
 ## Tecnologías
@@ -31,10 +32,6 @@ todo-list/
 └── js/
     └── app.js
 ```
-
-## Próximas mejoras
-
-- Filtros funcionales (Todas / Pendientes / Completadas)
 
 ## Autor
 
